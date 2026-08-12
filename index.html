@@ -1,197 +1,337 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>A Message For You</title>
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Message For You</title>
+    <style>
+        /* Import a romantic, elegant serif font */
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&display=swap');
 
-    body {
-      min-height: 100vh;
-      background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: 'Georgia', serif;
-      overflow-x: hidden;
-      padding: 20px;
-    }
+        :root {
+            /* Romantic Pastel Color Palette */
+            --bg-color: #fdf6f6;
+            --petal-outer: #ffcad4; /* Soft Pink */
+            --petal-inner: #fbc4ab; /* Soft Peach */
+            --flower-center: #ff97b1; /* Deeper Pink */
+            --text-color: #4a4a4a;
+            --accent-color: #d4a373; /* Gold/Bronze for details */
+        }
 
-    .container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      width: 100%;
-      max-width: 600px;
-    }
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-    /* Origami Flower Wrapper */
-    .flower-wrapper {
-      position: relative;
-      width: 200px;
-      height: 200px;
-      cursor: pointer;
-      transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-      z-index: 10;
-    }
+        body {
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            /* Subtle romantic pattern background */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40' viewBox='0 0 40 40'%3E%3Cg fill-rule='even-odd'%3E%3Cg fill='%3Cfe8d9e' fill-opacity='0.05'%3E%3Cpath d='M0 38.59V16.41L11.09 5.32 22.18 16.41v22.18L11.09 39.68 0 38.59zm2.18-1.51l8.91.88 8.91-.88V17.32L11.09 8.41 2.18 17.32v19.76zm20-11.26V3.59L33.27 14.68 22.18 25.77zM24.36 5.09l8.91 8.91-8.91 8.91V5.09zM11.09 24.36L0 13.27 11.09 2.18 22.18 13.27 11.09 24.36zm0-2.18L19.76 13.27 11.09 4.36 2.41 13.27 11.09 22.18zH22.18zm0 0h20v20h-20z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
+            padding: 20px;
+        }
 
-    .flower-wrapper:hover {
-      transform: scale(1.05);
-    }
+        .container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 650px;
+            perspective: 1000px; /* Essential for 3D fold effect */
+        }
 
-    /* Outer Petals */
-    .petal {
-      position: absolute;
-      width: 80px;
-      height: 80px;
-      background: #ffb7b2;
-      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-      transition: all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-      top: 60px;
-      left: 60px;
-      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
-    }
+        /* --- Updated Origami Flower (Realistic) --- */
+        .flower-wrapper {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            cursor: pointer;
+            transition: transform 0.6s ease, opacity 0.5s ease;
+            z-index: 10;
+            transform-style: preserve-3d;
+        }
 
-    .p1 { transform: translateY(-50px) rotate(0deg); background: #ff9aa2; }
-    .p2 { transform: translateX(50px) rotate(90deg); background: #ffb7b2; }
-    .p3 { transform: translateY(50px) rotate(180deg); background: #ffdac1; }
-    .p4 { transform: translateX(-50px) rotate(270deg); background: #e2f0cb; }
+        .flower-wrapper:hover {
+            transform: scale(1.03) rotate(2deg);
+        }
 
-    .p5 { transform: translate(-35px, -35px) rotate(45deg); background: #b5edd8; }
-    .p6 { transform: translate(35px, -35px) rotate(135deg); background: #c7ceea; }
-    .p7 { transform: translate(35px, 35px) rotate(225deg); background: #f6a6b2; }
-    .p8 { transform: translate(-35px, 35px) rotate(315deg); background: #f3c4fb; }
+        /* The central button that looks like stamen */
+        .flower-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            background: var(--flower-center);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4),
+                        inset 0 0 10px rgba(0,0,0,0.1);
+            z-index: 20;
+            transition: all 0.5s ease;
+        }
 
-    /* Interactive Center Button */
-    .flower-center {
-      position: absolute;
-      top: 70px;
-      left: 70px;
-      width: 60px;
-      height: 60px;
-      background: #ff6b81;
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: white;
-      font-size: 12px;
-      font-weight: bold;
-      letter-spacing: 1px;
-      box-shadow: 0 4px 15px rgba(255, 107, 129, 0.4);
-      transition: all 0.5s ease;
-      text-transform: uppercase;
-      user-select: none;
-    }
+        /* Basic Petal Shape definition */
+        .petal {
+            position: absolute;
+            background: var(--petal-outer);
+            width: 140px;
+            height: 140px;
+            top: 70px; /* (ContainerHeight - PetalHeight) / 2 */
+            left: 70px;
+            transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transform-origin: center center;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.05);
+            border: 1px solid rgba(0,0,0,0.03);
+            
+            /* The "Origami" paper cut: a rounded heart/leaf hybrid */
+            clip-path: polygon(50% 0%, 100% 35%, 80% 100%, 20% 100%, 0% 35%);
+            
+            /* Gradient to simulate paper folds */
+            background-image: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.02) 100%);
+        }
 
-    .hint-text {
-      margin-top: 25px;
-      font-size: 0.9rem;
-      color: #777;
-      letter-spacing: 1px;
-      transition: opacity 0.5s ease;
-    }
+        /* --- Petal Layers & Positioning (Closed State) --- */
+        
+        /* Layer 1: Bottom, softer pink */
+        .p1 { transform: rotate(0deg) translateY(-40px); background-color: #ffb7b2; z-index: 1; }
+        .p2 { transform: rotate(90deg) translateY(-40px); background-color: #ffb7b2; z-index: 2; }
+        .p3 { transform: rotate(180deg) translateY(-40px); background-color: #ffb7b2; z-index: 3; }
+        .p4 { transform: rotate(270deg) translateY(-40px); background-color: #ffb7b2; z-index: 4; }
 
-    /* Open State Transformations */
-    .open .p1 { transform: translateY(-110px) rotate(0deg) scale(0.8); opacity: 0.4; }
-    .open .p2 { transform: translateX(110px) rotate(90deg) scale(0.8); opacity: 0.4; }
-    .open .p3 { transform: translateY(110px) rotate(180deg) scale(0.8); opacity: 0.4; }
-    .open .p4 { transform: translateX(-110px) rotate(270deg) scale(0.8); opacity: 0.4; }
-    .open .p5 { transform: translate(-85px, -85px) rotate(45deg) scale(0.7); opacity: 0.3; }
-    .open .p6 { transform: translate(85px, -85px) rotate(135deg) scale(0.7); opacity: 0.3; }
-    .open .p7 { transform: translate(85px, 85px) rotate(225deg) scale(0.7); opacity: 0.3; }
-    .open .p8 { transform: translate(-85px, 85px) rotate(315deg) scale(0.7); opacity: 0.3; }
+        /* Layer 2: Inner, peachy tone */
+        .p5 { transform: rotate(45deg) translateY(-35px) scale(0.9); background-color: var(--petal-inner); z-index: 5; }
+        .p6 { transform: rotate(135deg) translateY(-35px) scale(0.9); background-color: var(--petal-inner); z-index: 6; }
+        .p7 { transform: rotate(225deg) translateY(-35px) scale(0.9); background-color: var(--petal-inner); z-index: 7; }
+        .p8 { transform: rotate(315deg) translateY(-35px) scale(0.9); background-color: var(--petal-inner); z-index: 8; }
 
-    .open .flower-center {
-      transform: scale(0);
-      opacity: 0;
-    }
+        /* --- Open State Transformations (The magic part) --- */
+        .open .petal {
+            opacity: 0.1; /* Fade petals out as it opens */
+            pointer-events: none;
+        }
 
-    /* Letter Container */
-    .letter-card {
-      position: absolute;
-      opacity: 0;
-      transform: scale(0.8) translateY(20px);
-      width: 100%;
-      max-width: 520px;
-      background: #ffffff;
-      padding: 35px 30px;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-      border: 1px solid #f0f0f0;
-      pointer-events: none;
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.3s;
-      z-index: 5;
-    }
+        /* Petals fly outwards, rotate, and fade */
+        .open .p1 { transform: rotate(0deg) translateY(-250px) rotateX(110deg); }
+        .open .p2 { transform: rotate(90deg) translateY(-250px) rotateX(110deg); }
+        .open .p3 { transform: rotate(180deg) translateY(-250px) rotateX(110deg); }
+        .open .p4 { transform: rotate(270deg) translateY(-250px) rotateX(110deg); }
+        
+        .open .p5 { transform: rotate(45deg) translateY(-220px) rotateX(110deg) scale(0.8); }
+        .open .p6 { transform: rotate(135deg) translateY(-220px) rotateX(110deg) scale(0.8); }
+        .open .p7 { transform: rotate(225deg) translateY(-220px) rotateX(110deg) scale(0.8); }
+        .open .p8 { transform: rotate(315deg) translateY(-220px) rotateX(110deg) scale(0.8); }
 
-    .letter-card.show {
-      opacity: 1;
-      transform: scale(1) translateY(0);
-      pointer-events: auto;
-    }
+        .open .flower-center {
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
 
-    .letter-content {
-      line-height: 1.8;
-      color: #4a4a4a;
-      font-size: 1.05rem;
-      text-align: center;
-      white-space: pre-line;
-    }
+        /* --- Hint Text --- */
+        .hint-text {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 300;
+            letter-spacing: 1.5px;
+            transition: opacity 0.5s ease;
+            text-transform: uppercase;
+        }
 
-    .heart {
-      color: #e74c3c;
-      display: inline-block;
-      margin-left: 3px;
-    }
-  </style>
+        /* --- The Romantic Letter Card --- */
+        .letter-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transform: scale(0.7) rotateX(-15deg) translateY(50px);
+            width: 100%;
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+            border: 1px solid #f3e5e5;
+            pointer-events: none;
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 5;
+            text-align: center;
+        }
+
+        /* When the flower is open, show the card */
+        .letter-card.show {
+            opacity: 1;
+            transform: scale(1) rotateX(0deg) translateY(0);
+            pointer-events: auto;
+            position: relative; /* Take up space in flow once shown */
+        }
+
+        /* Decorative top border for the letter */
+        .letter-card::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            opacity: 0.6;
+        }
+
+        /* Modern & Romantic Typography */
+        .letter-content {
+            font-family: 'Playfair Display', serif;
+            line-height: 1.9;
+            color: var(--text-color);
+            font-size: 1.1rem;
+            white-space: pre-line; /* respects line breaks in the text */
+            font-weight: 400;
+        }
+
+        /* Highlight the opening lines slightly */
+        .letter-content::first-line {
+            font-weight: 700;
+            font-style: italic;
+            color: #333;
+        }
+
+        .heart {
+            color: #e74c3c;
+            font-size: 1.3rem;
+            display: inline-block;
+            margin-left: 5px;
+            animation: heartbeat 1.5s infinite;
+        }
+
+        /* Refold Button */
+        .refold-btn {
+            margin-top: 30px;
+            background: none;
+            border: 1px solid var(--accent-color);
+            color: var(--accent-color);
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+        
+        .refold-btn:hover {
+            background: var(--accent-color);
+            color: white;
+            opacity: 1;
+        }
+
+        /* Smooth heartbeat animation */
+        @keyframes heartbeat {
+            0% { transform: scale(1); }
+            15% { transform: scale(1.2); }
+            30% { transform: scale(1); }
+            45% { transform: scale(1.15); }
+            60% { transform: scale(1); }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 500px) {
+            .flower-wrapper { width: 220px; height: 220px; }
+            .petal { width: 110px; height: 110px; top: 55px; left: 55px; }
+            .letter-card { padding: 40px 20px; }
+            .letter-content { font-size: 1rem; }
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
-    <div class="flower-wrapper" id="flower" onclick="openFlower()">
-      <div class="petal p1"></div>
-      <div class="petal p2"></div>
-      <div class="petal p3"></div>
-      <div class="petal p4"></div>
-      <div class="petal p5"></div>
-      <div class="petal p6"></div>
-      <div class="petal p7"></div>
-      <div class="petal p8"></div>
-      <div class="flower-center">Open</div>
+    <div class="container">
+        <!-- The Upgraded Origami Flower -->
+        <div class="flower-wrapper" id="flower" onclick="openFlower()">
+            <!-- Layer 1 (Outer) -->
+            <div class="petal p1"></div>
+            <div class="petal p2"></div>
+            <div class="petal p3"></div>
+            <div class="petal p4"></div>
+            <!-- Layer 2 (Inner) -->
+            <div class="petal p5"></div>
+            <div class="petal p6"></div>
+            <div class="petal p7"></div>
+            <div class="petal p8"></div>
+            
+            <div class="flower-center">Open</div>
+        </div>
+
+        <p class="hint-text" id="hint">Click the flower to open</p>
+
+        <!-- The Letter -->
+        <div class="letter-card" id="letter">
+            <p class="letter-content">
+The best freelancer to ever exist, 
+
+I'm writing u this let u know that, I love looking at u, with all what u call ur weirdness all I see is ur wonderfulness, I could stare at u for hours and love each minute of it, every night with you feels like a first time, I enjoy it all with u from our loud laughs and giggles to our sudden silence, my days aren't the same anymore since u showed up, my heart isn't the same anymore since u showed up, nothing is the same anymore, I love every bit of u that I yet got the chance to witness, and I can't wait to discover every other bit, I love you so much, and may Allah keep u on my path until the end of it <span class="heart">❤️</span>
+            </p>
+            <button class="refold-btn" onclick="closeFlower(event)">Re-fold Flower</button>
+        </div>
     </div>
 
-    <p class="hint-text" id="hint">Click the center of the flower</p>
+    <script>
+        const flower = document.getElementById('flower');
+        const letter = document.getElementById('letter');
+        const hint = document.getElementById('hint');
 
-    <div class="letter-card" id="letter">
-      <p class="letter-content">
-        The best freelancer to ever exist, 
-        
-        I'm writing u this let u know that, I love looking at, with all what u call ur weirdness all I see is ur wonderfulness, I could stare at u for hours and love each minute if it, every night with you feels like a first time, I enjoy it all with u from our loud laughs and giggles to our sudden silence, my days aren't the same anymore since u showed up, my heart isn't the same anymore since u showed up, nothing is the same anymore, I love every bit of u that I yet got the chance to witness, and I can't wait to discover every other bit, I love you so much, and may Allah keep u on my path until the end of it <span class="heart">❤️</span>
-      </p>
-    </div>
-  </div>
+        function openFlower() {
+            // Add 'open' class to trigger petal animations
+            flower.classList.add('open');
+            hint.style.opacity = '0';
+            
+            // Wait for flower animation to start, then reveal letter
+            setTimeout(() => {
+                letter.classList.add('show');
+                // Temporarily hide flower wrapper so it doesn't overlap text
+                setTimeout(() => {
+                   if(flower.classList.contains('open')) {
+                       flower.style.display = 'none';
+                   }
+                }, 800);
+            }, 300);
+        }
 
-  <script>
-    function openFlower() {
-      const flower = document.getElementById('flower');
-      const letter = document.getElementById('letter');
-      const hint = document.getElementById('hint');
-
-      flower.classList.add('open');
-      hint.style.opacity = '0';
-      
-      setTimeout(() => {
-        letter.classList.add('show');
-      }, 400);
-    }
-  </script>
+        function closeFlower(e) {
+            // Prevent the click from triggering openFlower immediately
+            e.stopPropagation(); 
+            
+            flower.style.display = 'block'; // Bring flower container back
+            
+            // Force a brief reflow so display:block registers before removing class
+            flower.offsetHeight; 
+            
+            letter.classList.remove('show');
+            flower.classList.remove('open');
+            
+            setTimeout(() => {
+                hint.style.opacity = '1';
+            }, 500);
+        }
+    </script>
 
 </body>
 </html>
